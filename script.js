@@ -1,9 +1,9 @@
 let title = 'Проект Урок 2',
-    screens = 'Простые, Сложные, Интерактивные',
-    screenPrice = 550,
-    rollback = 80,
-    fullPrice = 4000,
-    adaptive = true;
+  screens = 'Простые, Сложные, Интерактивные',
+  screenPrice = 550,
+  rollback = 80,
+  fullPrice = 4000,
+  adaptive = true;
 
 alert('Hello!');
 
