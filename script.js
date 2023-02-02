@@ -9,30 +9,47 @@ const service1 = prompt('Какой дополнительный тип услу
 const servicePrice1 = prompt('Сколько это будет стоить?');
 const service2 = prompt('Какой дополнительный тип услуги нужен?');
 const servicePrice2 = prompt('Сколько это будет стоить?');
-const fullPrice = +screenPrice + +servicePrice1 + +servicePrice2;
 
-const servicePercentPrice = Math.ceil(fullPrice - (rollback * fullPrice / 100));
-
-console.log(`type title: ${typeof title}, type fullPrice: ${typeof fullPrice}, type adaptive: ${typeof adaptive}`);
-
-console.log('screens length: ', screens.length);
-
-console.log(`Стоимость верстки экранов ${screenPrice} долларов`);
-
-console.log(`Стоимость разработки сайта ${fullPrice} долларов`);
-
-console.log(screens.toLowerCase().split(', '));
-
-console.log('Процент отката посреднику за работу: ', fullPrice * (rollback / 100));
-
-console.log('servicePercentPrice = ', servicePercentPrice);
-
-if (fullPrice >= 30000) {
-  console.log('Даем скидку в 10%');
-} else if (fullPrice >= 15000) {
-  console.log('Даем скидку в 5%');
-} else if (fullPrice < 15000) {
-  console.log('Скидка не предусмотрена');
-} else if (fullPrice < 0) {
-  console.log('Что то пошло не так');
+function getTitle(title) {
+  return title[0].toUpperCase() + title.slice(1);
 }
+
+function getFullPrice(screenPrice, allServicePrices) {
+  return +screenPrice + allServicePrices;
+};
+
+function getServicePercentPrices(fullPrice, rollback) {
+  return Math.ceil(fullPrice - (rollback * fullPrice / 100))
+}
+
+function showTypeOf() {
+  return screens.toLowerCase();
+}
+
+function getRollbackMessage(price) {
+  if (fullPrice >= 30000) {
+    return 'Даем скидку в 10%';
+  } else if (fullPrice >= 15000) {
+    return 'Даем скидку в 5%';
+  } else if (fullPrice < 15000) {
+    return 'Скидка не предусмотрена';
+  } else if (fullPrice < 0) {
+    return 'Что то пошло не так';
+  }
+}
+
+const getAllServicePrices = function (servicePrice1, servicePrice2) {
+  return +servicePrice1 + +servicePrice2;
+}
+
+const allServicePrices = getAllServicePrices(servicePrice1, servicePrice2);
+
+const fullPrice = getFullPrice(screenPrice, allServicePrices);
+
+const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
+
+console.log('Типы экранов для разработки screens: ', showTypeOf());
+
+console.log('Скидка пользователю: ', getRollbackMessage(fullPrice));
+
+console.log('Стоимость за вычетом процента отката посреднику: ', servicePercentPrice);
