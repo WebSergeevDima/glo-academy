@@ -22,8 +22,8 @@ function getServicePercentPrices(fullPrice, rollback) {
   return Math.ceil(fullPrice - (rollback * fullPrice / 100))
 }
 
-function showTypeOf() {
-  return screens.toLowerCase();
+function showTypeOf(data) {
+  return data + ': ' + typeof data;
 }
 
 function getRollbackMessage(price) {
@@ -48,7 +48,11 @@ const fullPrice = getFullPrice(screenPrice, allServicePrices);
 
 const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 
-console.log('Типы экранов для разработки screens: ', showTypeOf());
+console.log(showTypeOf(title));
+console.log(showTypeOf(fullPrice));
+console.log(showTypeOf(adaptive));
+
+console.log('Типы экранов для разработки screens: ', screens.toLowerCase());
 
 console.log('Скидка пользователю: ', getRollbackMessage(fullPrice));
 
