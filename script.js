@@ -3,7 +3,7 @@
 const rollback = 80;
 const title = prompt('Как называется ваш проект?');
 const screens = prompt('Какие типы экранов нужно разработать?');
-const screenPrice = prompt('Сколько будет стоить данная работа?');
+const screenPrice = getScreenPrice();
 const adaptive = confirm('Нужен ли адаптив на сайте?');
 const service1 = prompt('Какой дополнительный тип услуги нужен?');
 const servicePrice1 = prompt('Сколько это будет стоить?');
@@ -36,6 +36,22 @@ function getRollbackMessage(price) {
   } else if (fullPrice < 0) {
     return 'Что то пошло не так';
   }
+}
+
+function getScreenPrice() {
+  let screenPrice;
+  do {
+    screenPrice = prompt('Сколько будет стоить данная работа?');
+  } while (false) {
+    if (!isNumber(screenPrice)) {
+      screenPrice = prompt('Сколько будет стоить данная работа?');
+    }
+  }
+  return screenPrice;
+}
+
+function isNumber(num) {
+  return !isNaN(parseFloat(num)) && isFinite(num);
 }
 
 const getAllServicePrices = function (servicePrice1, servicePrice2) {
