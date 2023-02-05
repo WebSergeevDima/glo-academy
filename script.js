@@ -5,10 +5,8 @@ const title = prompt('Как называется ваш проект?');
 const screens = prompt('Какие типы экранов нужно разработать?');
 const screenPrice = getScreenPrice();
 const adaptive = confirm('Нужен ли адаптив на сайте?');
-const service1 = prompt('Какой дополнительный тип услуги нужен?');
-const servicePrice1 = prompt('Сколько это будет стоить?');
-const service2 = prompt('Какой дополнительный тип услуги нужен?');
-const servicePrice2 = prompt('Сколько это будет стоить?');
+let service1;
+let service2;
 
 function getTitle(title) {
   return title[0].toUpperCase() + title.slice(1);
@@ -42,10 +40,9 @@ function getScreenPrice() {
   let screenPrice;
   do {
     screenPrice = prompt('Сколько будет стоить данная работа?');
-  } while (false) {
-    if (!isNumber(screenPrice)) {
-      screenPrice = prompt('Сколько будет стоить данная работа?');
-    }
+  } while (!isNumber(screenPrice)) {
+    console.log(!isNumber(screenPrice), screenPrice);
+    screenPrice = prompt('Сколько будет стоить данная работа?');
   }
   return screenPrice;
 }
@@ -54,11 +51,32 @@ function isNumber(num) {
   return !isNaN(parseFloat(num)) && isFinite(num);
 }
 
-const getAllServicePrices = function (servicePrice1, servicePrice2) {
-  return +servicePrice1 + +servicePrice2;
+const getAllServicePrices = function () {
+
+  let sum = 0;
+  let servicePrice = null;
+
+  for (let i = 0; i < 2; i++) {
+
+    if (i === 0) {
+      service1 = prompt('Какой дополнительный тип услуги нужен?');
+    } else {
+      service2 = prompt('Какой дополнительный тип услуги нужен?');
+    }
+
+    while (!isNumber(servicePrice)) {
+      servicePrice = prompt('Сколько это будет стоить?');
+    }
+
+    sum += servicePrice;
+    servicePrice = null;
+
+  }
+
+  return sum;
 }
 
-const allServicePrices = getAllServicePrices(servicePrice1, servicePrice2);
+const allServicePrices = getAllServicePrices();
 
 const fullPrice = getFullPrice(screenPrice, allServicePrices);
 
