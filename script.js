@@ -2,67 +2,98 @@
 
 const appData = {
   title: '',
-  screens: '',
+  screens: [],
   screenPrice: 0,
   adaptive: true,
   rollback: 10,
   allServicePrices: 0,
   fullPrice: 0,
   servicePercentPrice: 0,
-  service1: '',
-  service2: '',
+  services: {},
   start: function () {
     appData.asking();
-    appData.allServicePrices = appData.getAllServicePrices();
-    appData.fullPrice = appData.getFullPrice();
-    appData.servicePercentPrice = appData.getServicePercentPrices();
-    appData.title = appData.getTitle();
+    appData.addPrice();
+    appData.getFullPrice();
+    appData.getServicePercentPrices();
+    appData.getTitle();
     appData.logger();
   },
   asking: function () {
-    appData.title = prompt('Как называется ваш проект?');
-    appData.screens = prompt('Какие типы экранов нужно разработать?');
+    let tmpPrice = 0;
 
     do {
-      appData.screenPrice = prompt('Сколько будет стоить данная работа?');
-    } while (!appData.isNumber(appData.screenPrice));
+      appData.title = String(prompt('Как называется ваш проект?'));
+    } while (!appData.isString(appData.title));
 
-    appData.adaptive = confirm('Нужен ли адаптив на сайте?');
-  },
-  getAllServicePrices: function () {
-    let sum = 0;
-    let price;
+    for (let i = 0; i < 2; i++) {
+      let name = '';
+      let price = 0;
+
+      do {
+        name = prompt('Какие типы экранов нужно разработать?');
+      } while (!appData.isString(name));
+
+      do {
+        price = prompt('Сколько будет стоить данная работа?');
+      } while (!appData.isNumber(price));
+
+      appData.screens.push({
+        id: i,
+        name,
+        price
+      });
+    }
 
     for (let i = 0; i < 2; i++) {
 
-      if (i === 0) {
-        appData.service1 = prompt('Какой дополнительный тип услуги нужен?');
-      } else {
-        appData.service2 = prompt('Какой дополнительный тип услуги нужен?');
-      }
+      let price = 0;
+      let name = '';
+
+      do {
+        name = prompt('Какой дополнительный тип услуги нужен?');
+      } while (!appData.isString(name));
 
       do {
         price = prompt('Сколько это будет стоить?');
       } while (!appData.isNumber(price));
 
-      sum += +price;
+      if (appData.services.hasOwnProperty(name)) {
+        tmpPrice = appData.services[name];
+        delete appData.services[name];
+        appData.services[`${name}_${i - 1}`] = tmpPrice;
+        appData.services[`${name}_${i}`] = +price;
+      } else {
+        appData.services[name] = +price;
+      }
+
 
     }
 
-    return sum;
+    appData.adaptive = confirm('Нужен ли адаптив на сайте?');
+  },
+  addPrice: function () {
+    appData.screenPrice = appData.screens.reduce(function (acc, item) {
+      return acc += +item.price;
+    }, 0);
 
+    for (let key in appData.services) {
+      appData.allServicePrices += appData.services[key];
+    }
   },
   isNumber: function (num) {
     return !isNaN(parseFloat(num)) && isFinite(num) && (String(num) === String(num).trim());
   },
+  isString: function (str) {
+    return !appData.isNumber(str);
+  },
   getServicePercentPrices: function () {
-    return Math.ceil(appData.fullPrice - (appData.rollback * appData.fullPrice / 100));
+    appData.servicePercentPrice = Math.ceil(appData.fullPrice - (appData.rollback * appData.fullPrice / 100));
   },
   getTitle: function () {
-    return (appData.title.trim()[0]).toUpperCase() + appData.title.trim().slice(1).toLowerCase();
+    appData.title = (appData.title.trim()[0]).toUpperCase() + appData.title.trim().slice(1).toLowerCase();
   },
   getFullPrice: function () {
-    return +appData.screenPrice + appData.allServicePrices;
+    appData.fullPrice = +appData.screenPrice + appData.allServicePrices;
   },
   showTypeOf: function (data) {
     return data + ': ' + typeof data;
@@ -81,6 +112,8 @@ const appData = {
   logger: function () {
     console.log(appData.fullPrice);
     console.log(appData.servicePercentPrice);
+    console.log(appData.screens);
+    console.log(appData.services);
 
     for (let key in appData) {
       console.log(key);
