@@ -19,7 +19,6 @@ const appData = {
     appData.logger();
   },
   asking: function () {
-    let tmpPrice = 0;
 
     do {
       appData.title = String(prompt('Как называется ваш проект?'));
@@ -57,15 +56,7 @@ const appData = {
         price = prompt('Сколько это будет стоить?');
       } while (!appData.isNumber(price));
 
-      if (appData.services.hasOwnProperty(name)) {
-        tmpPrice = appData.services[name];
-        delete appData.services[name];
-        appData.services[`${name}_${i - 1}`] = tmpPrice;
-        appData.services[`${name}_${i}`] = +price;
-      } else {
-        appData.services[name] = +price;
-      }
-
+      appData.services[name] = +price;
 
     }
 
@@ -84,7 +75,7 @@ const appData = {
     return !isNaN(parseFloat(num)) && isFinite(num) && (String(num) === String(num).trim());
   },
   isString: function (str) {
-    return !appData.isNumber(str);
+    return str !== 'null' && isNaN(str) && str.trim() === str && str !== '' && !(parseInt(str) == str);
   },
   getServicePercentPrices: function () {
     appData.servicePercentPrice = Math.ceil(appData.fullPrice - (appData.rollback * appData.fullPrice / 100));
