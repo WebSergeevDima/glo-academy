@@ -8,6 +8,11 @@ const otherItemsPercent = document.querySelectorAll('.other-items.percent');
 const otherItemsNumber = document.querySelectorAll('.other-items.number');
 const inputRange = document.querySelector('.rollback input[type=range]');
 const rangeValue = document.querySelector('.rollback span.range-value');
+const totalInputs1 = document.getElementsByClassName('total-input')[0];
+const totalInputs2 = document.getElementsByClassName('total-input')[1];
+const totalInputs3 = document.getElementsByClassName('total-input')[2];
+const totalInputs4 = document.getElementsByClassName('total-input')[3];
+const totalInputs5 = document.getElementsByClassName('total-input')[4];
 let screenBlocks = document.querySelectorAll('.screen');
 
 const appData = {
@@ -123,11 +128,5 @@ const appData = {
   }
 
 };
-
-const totalInputs = [];
-
-for (let input of document.getElementsByClassName('total-input')) {
-  totalInputs.push(input);
-}
 
 appData.start();
