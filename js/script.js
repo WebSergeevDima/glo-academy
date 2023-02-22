@@ -37,7 +37,9 @@ const appData = {
   },
   addScreenBlock: function () {
     const cloneScreen = screenBlocks[0].cloneNode(true);
-    screenBlocks[screenBlocks.length - 1].after(cloneScreen);
+    cloneScreen.querySelector('select').selectedIndex = 0;
+    cloneScreen.querySelector('input').value = '';
+    btnPlus.before(cloneScreen);
   },
   addTitle: function () {
     document.title = title.textContent;
@@ -87,12 +89,15 @@ const appData = {
   },
   start: function () {
     appData.isValid = true;
+    appData.count = 0;
     appData.addScreens();
     appData.addServices();
     appData.addPrice();
     // appData.logger();
     if (appData.isValid) {
       appData.showResult();
+    } else {
+      alert('Заполните все поля в блоке "Расчет по типу экрана"!');
     }
   },
   showResult: function () {
