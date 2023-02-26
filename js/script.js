@@ -29,7 +29,7 @@ const appData = {
     btnStart.addEventListener('click', this.start.bind(this));
     btnReset.addEventListener('click', this.reset.bind(this));
     btnPlus.addEventListener('click', this.addScreenBlock.bind(this));
-    inputRange.addEventListener('input', this.addRollback);
+    inputRange.addEventListener('input', this.addRollback.bind(this));
   },
   start: function () {
     if (appData.isValid()) {
@@ -86,6 +86,7 @@ const appData = {
 
     checkboxInputs.forEach(item => {
       item.removeAttribute('disabled');
+      item.checked = false;
     })
 
     inputRange.removeAttribute('disabled');
