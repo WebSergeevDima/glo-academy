@@ -23,7 +23,6 @@ const appData = {
   servicePercentPrice: 0,
   servicesPercent: {},
   servicesNumber: {},
-  isValid: true,
   count: 0,
   init: function () {
     this.addTitle();
