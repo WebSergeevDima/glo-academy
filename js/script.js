@@ -26,25 +26,38 @@ const appData = {
   count: 0,
   init: function () {
     this.addTitle();
-    btnStart.addEventListener('click', this.start.bind(appData));
-    btnReset.addEventListener('click', this.reset.bind(appData));
-    btnPlus.addEventListener('click', this.addScreenBlock.bind(appData));
+    btnStart.addEventListener('click', this.start.bind(this));
+    btnReset.addEventListener('click', this.reset.bind(this));
+    btnPlus.addEventListener('click', this.addScreenBlock.bind(this));
     inputRange.addEventListener('input', this.addRollback);
   },
   start: function () {
-    this.isValid = true;
-    this.count = 0;
-
-    this.addScreens();
-    this.addServices();
-    this.addPrice();
-    // this.logger(); 
-
-    if (this.isValid) {
+    if (appData.isValid()) {
+      this.count = 0;
+      this.addScreens();
+      this.addServices();
+      this.addPrice();
+      // this.logger(); 
       this.showResult();
     } else {
       alert('Заполните все поля в блоке "Расчет по типу экрана"!');
     }
+  },
+  isValid() {
+    screenBlocks = document.querySelectorAll('.screen');
+    let isValid = true;
+
+    screenBlocks.forEach(function (screen) {
+      const select = screen.querySelector('select');
+      const input = screen.querySelector('input');
+
+      if (!input.value || select.selectedIndex === 0) {
+        isValid = false
+      }
+
+    });
+
+    return isValid;
   },
   reset: function () {
     this.resetBtns();
@@ -54,8 +67,10 @@ const appData = {
   resetBtns: function () {
     btnStart.style.display = 'block';
     btnReset.style.display = 'none';
+    btnPlus.style.display = 'block';
   },
   resetScreenBlocks: function () {
+    const checkboxInputs = document.querySelectorAll('input[type="checkbox"]');
     screenBlocks = document.querySelectorAll('.screen');
 
     screenBlocks.forEach((item, index) => {
@@ -68,6 +83,14 @@ const appData = {
         item.querySelector('input').removeAttribute('disabled');
       }
     });
+
+    checkboxInputs.forEach(item => {
+      item.removeAttribute('disabled');
+    })
+
+    inputRange.removeAttribute('disabled');
+    inputRange.value = 0;
+    rangeValue.innerHTML = '0%';
 
   },
   resetMainTotal: function () {
@@ -103,10 +126,6 @@ const appData = {
         name: selectName,
         price: +input.value * +select.value
       });
-
-      if (!input.value || select.selectedIndex === 0) {
-        this.isValid = false
-      }
 
       this.count += +input.value;
 
@@ -165,7 +184,7 @@ const appData = {
     return data + ': ' + typeof data;
   },
   blockedElements: function () {
-    const inputs = document.querySelectorAll('.elements input[type=text]');
+    const inputs = document.querySelectorAll('.elements input');
     const selects = document.querySelectorAll('.elements select');
 
     inputs.forEach(item => {
@@ -178,6 +197,7 @@ const appData = {
 
     btnStart.style.display = 'none';
     btnReset.style.display = 'block';
+    btnPlus.style.display = 'none';
 
   },
   logger: function () {
