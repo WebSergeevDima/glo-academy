@@ -42,6 +42,7 @@ const appData = {
     } else {
       alert('Заполните все поля в блоке "Расчет по типу экрана"!');
     }
+    console.log(appData);
   },
   isValid() {
     screenBlocks = document.querySelectorAll('.screen');
@@ -63,6 +64,21 @@ const appData = {
     this.resetBtns();
     this.resetScreenBlocks();
     this.resetMainTotal();
+    this.resetObject();
+  },
+  resetObject: function () {
+    this.title = '';
+    this.screens = [];
+    this.screenPrice = 0;
+    this.adaptive = true;
+    this.rollback = 0;
+    this.servicePricesPercent = 0;
+    this.servicePricesNumber = 0;
+    this.fullPrice = 0;
+    this.servicePercentPrice = 0;
+    this.servicesPercent = {};
+    this.servicesNumber = {};
+    this.count = 0;
   },
   resetBtns: function () {
     btnStart.style.display = 'block';
