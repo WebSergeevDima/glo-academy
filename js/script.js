@@ -90,7 +90,6 @@ const appData = {
       appData.addServices();
       appData.addPrice();
       // appData.logger();
-
       appData.showResult();
     } else {
       alert('Заполните все поля в блоке "Расчет по типу экрана"!');
