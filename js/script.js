@@ -23,7 +23,6 @@ const appData = {
   servicePercentPrice: 0,
   servicesPercent: {},
   servicesNumber: {},
-  isValid: true,
   count: 0,
   init: function () {
     appData.addTitle();
@@ -51,10 +50,6 @@ const appData = {
       const select = screen.querySelector('select');
       const selectName = select.options[select.selectedIndex].textContent;
       const input = screen.querySelector('input');
-
-      if (!input.value || select.selectedIndex === 0) {
-        appData.isValid = false
-      }
 
       appData.screens.push({
         id: index,
@@ -88,17 +83,35 @@ const appData = {
     });
   },
   start: function () {
-    appData.isValid = true;
-    appData.count = 0;
-    appData.addScreens();
-    appData.addServices();
-    appData.addPrice();
-    // appData.logger();
-    if (appData.isValid) {
+
+    if (appData.isValid()) {
+      appData.count = 0;
+      appData.addScreens();
+      appData.addServices();
+      appData.addPrice();
+      // appData.logger();
+
       appData.showResult();
     } else {
       alert('Заполните все поля в блоке "Расчет по типу экрана"!');
     }
+
+  },
+  isValid() {
+    screenBlocks = document.querySelectorAll('.screen');
+    let isValid = true;
+
+    screenBlocks.forEach(function (screen) {
+      const select = screen.querySelector('select');
+      const input = screen.querySelector('input');
+
+      if (!input.value || select.selectedIndex === 0) {
+        isValid = false
+      }
+
+    });
+
+    return isValid;
   },
   showResult: function () {
     total.value = appData.screenPrice;
