@@ -42,7 +42,6 @@ const appData = {
     } else {
       alert('Заполните все поля в блоке "Расчет по типу экрана"!');
     }
-    console.log(appData);
   },
   isValid() {
     screenBlocks = document.querySelectorAll('.screen');
